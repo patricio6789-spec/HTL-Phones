@@ -1,0 +1,7 @@
+# Datos internos: se generan localmente y no forman parte del sitio publicado.
+panel.html
+data/margenes.json
+sitio-publico/
+__pycache__/
+*.pyc
+.DS_Store
