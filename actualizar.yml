@@ -1,0 +1,55 @@
+name: Actualizar catálogo y publicar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # 09:17, 11:17, 13:17, 15:17, 17:17 y 19:17 de Argentina, lunes a viernes.
+    # Son horarios programados: GitHub puede demorar las ejecuciones.
+    - cron: '17 12,14,16,18,20,22 * * 1-5'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalogo-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Probar importación y cálculo
+        run: python -m unittest discover -s tests -v
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+      - name: Actualizar únicamente información pública
+        run: python scripts/actualizar.py --sin-costos
+      - name: Preparar catálogo y respaldo
+        run: |
+          python scripts/embeber.py
+          python scripts/publicar.py
+      - name: Subir solo el catálogo público
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: sitio-publico
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar catálogo
+        id: deployment
+        uses: actions/deploy-pages@v4
