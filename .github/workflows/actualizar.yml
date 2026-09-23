@@ -5,9 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    # 09:17, 11:17, 13:17, 15:17, 17:17 y 19:17 de Argentina, lunes a viernes.
-    # Son horarios programados: GitHub puede demorar las ejecuciones.
-    - cron: '17 12,14,16,18,20,22 * * 1-5'
+    # Cada hora, de 08:17 a 19:17 de Argentina, lunes a viernes.
+    # Son horarios programados: GitHub demora o descarta ejecuciones.
+    # La frecuencia horaria compensa las que la plataforma saltea.
+    - cron: '17 11-22 * * 1-5'
 
 permissions:
   contents: read
@@ -53,3 +54,4 @@ jobs:
       - name: Publicar catálogo
         id: deployment
         uses: actions/deploy-pages@v4
+
