@@ -19,7 +19,7 @@ El catálogo tiene los datos verificados en la fecha que figura arriba. No es un
 - Búsqueda por modelo, color o código; filtros combinables y orden por precio.
 - Vista en tarjetas o lista, adaptación a pantallas pequeñas y lista descargable en CSV.
 - Consulta con cantidades, total y texto preparado para WhatsApp. La selección se conserva en ese navegador cuando permite almacenamiento local.
-- Fecha y hora de la lista, en Argentina. Aviso cuando tiene más de 8 horas.
+- Fecha y hora de la lista, en Argentina, en formato de 24 horas. Aviso cuando tiene más de 14 horas.
 - Panel con costos verificados, simulador con cantidades y descuento total, exportación y comparación de cambios.
 - Actualizador que incorpora altas y retira los productos que desaparecen de la lista minorista.
 - Carpeta `sitio-publico`, que contiene únicamente el catálogo y los precios públicos.
@@ -91,7 +91,7 @@ Se incluye `.github/workflows/actualizar.yml`, preparado para la rama `main`:
 3. En Actions, ejecutá **Actualizar catálogo y publicar**.
 4. Revisá que la ejecución finalice correctamente y abrí la dirección que entregue GitHub.
 
-La tarea consulta minorista a las **9:17, 11:17, 13:17, 15:17, 17:17 y 19:17**, hora argentina, de lunes a viernes. GitHub puede demorar o suspender las ejecuciones; revisá su estado en Actions. Al cargar código en `main` o ejecutar manualmente también actualiza. Si falla la importación, no reemplaza la publicación existente.
+La tarea consulta minorista **cada hora, de 8:17 a 19:17**, hora argentina, de lunes a viernes. GitHub puede demorar o suspender las ejecuciones; revisá su estado en Actions. Al cargar código en `main` o ejecutar manualmente también actualiza. Si falla la importación, no reemplaza la publicación existente.
 
 El workflow procesa únicamente información pública y publica `sitio-publico`. El panel con costos se actualiza en tu PC con `ACTUALIZAR.bat`; no se publica ni queda en el artefacto de Pages.
 
